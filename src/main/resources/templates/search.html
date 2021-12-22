@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+
+<body>
+<h1>Airline application</h1>
+<table border="1">
+    <th>Number</th>
+    <th>From</th>
+    <th>To</th>
+    <th>Arrival Time</th>
+    <th>Departure Time</th>
+    <th>seatType</th>
+    <th>Available Seats</th>
+    <th>Passengers</th>
+    <th>Fair Price</th>
+    <tr th:each="flight:${flights}" onclick="booking(this)">
+        <td th:text="${flight.number}"></td>
+        <td th:text="${flight.source}"></td>
+        <td th:text="${flight.destination}"></td>
+        <td th:text="${flight.arrivalTime}"></td>
+        <td th:text="${flight.departureTime}"></td>
+        <td th:text="${flight.seatType}"></td>
+        <td  th:if="${flight.seatType.equals('Economic')}" th:text="${flight.economicClassSeats}"></td>
+        <td  th:if="${flight.seatType.equals('FirstClass')}" th:text="${flight.firstClassSeats}"></td>
+        <td  th:if="${flight.seatType.equals('SecondClass')}" th:text="${flight.secondClassSeats}"></td>
+        <td th:text="${flight.numberOfPassengers}"></td>
+        <td th:if="${flight.seatType.equals('Economic')}" th:text="${flight.economicFarePrice*flight.numberOfPassengers}" ></td>
+        <td  th:if="${flight.seatType.equals('FirstClass')}" th:text="${flight.firstClassPrice*flight.numberOfPassengers}"></td>
+        <td  th:if="${flight.seatType.equals('SecondClass')}" th:text="${flight.secondClassPrice*flight.numberOfPassengers}"></td>
+        <td scope="row"><a th:href="@{/book(number=${flight.number},seatType=${flight.seatType},passengers=${flight.numberOfPassengers})}" th:text="BookTicket" class="btn btn-primary" ></a></td>
+    </tr>
+</table>
+</body>
+<script>
+    function booking(){
+
+    row.querySelector("a").click();
+    }
+</script>
+</html>

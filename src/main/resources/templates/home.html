@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<h1>Airline application</h1>
+<form action="#" th:action="@{/search}" th:object="${searchForm}" method="post" name="airlineForm" id="applicationForm">
+    <label for="from">From</label>
+    <input id="from" name="from" required="required"/>
+    <br/>
+    <br/>
+    <label for="to">To</label>
+    <input id="to" name="to" required="required"/>
+    <br/>
+    <br/>
+    <label for="departureDate">Departure Date</label>
+    <input type="date" id="departureDate" name="departureDate" required="required"/>
+    <br/>
+    <br/>
+    <label for="numberOfPassengers">NumberOfPassengers</label>
+    <input type="Number" id="numberOfPassengers" name="numberOfPassengers" required="required"/>
+    <br/>
+    <br/>
+    <label for="seatType">Choose a Seat Type:</label>
+
+    <select id="seatType" name="seatType">
+        <option value="Economic">Economic</option>
+        <option value="FirstClass">FirstClass</option>
+        <option value="SecondClass">SecondClass</option>
+    </select>
+    <br/>
+    <br/>
+    <input id="submitButton" type="submit" value="Search"/>
+
+</form>
+</body>
+</html>
