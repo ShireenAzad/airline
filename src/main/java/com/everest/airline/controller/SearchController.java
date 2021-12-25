@@ -1,6 +1,5 @@
 package com.everest.airline.controller;
 
-import com.everest.airline.Data;
 import com.everest.airline.DataHandler;
 import com.everest.airline.database.FileHandler;
 import com.everest.airline.model.Flight;
@@ -8,16 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
 
 @Controller
 public class SearchController {
-
     @RequestMapping(value = "/")
     public String home() {
+
         return "home";
     }
 
@@ -25,7 +23,7 @@ public class SearchController {
     public String search(String from, String to, String departureDate, Integer numberOfPassengers,String seatType, Model model) throws IOException {
         List<Flight> flightsSearch;
         FileHandler fileHandler=new FileHandler();
-        flightsSearch= FileHandler.flightsSearch(from,to,departureDate,numberOfPassengers,seatType);
+        flightsSearch= fileHandler.flightsSearch(from,to,departureDate,numberOfPassengers,seatType);
         if(flightsSearch.size()==0)
             return "searchHelper";
         model.addAttribute("flights", flightsSearch);

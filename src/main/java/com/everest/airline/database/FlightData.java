@@ -1,7 +1,7 @@
 package com.everest.airline.database;
 
-import com.everest.airline.Data;
 import com.everest.airline.model.Flight;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,13 +15,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public class FlightData {
 
-    private static ArrayList<Flight> flights = new ArrayList<Flight>();
-
-    public static List<Flight> readFilesIntoList(int numberOfPassengers, String seatType) {
-
+    public List<Flight> readFilesIntoList() {
+        ArrayList<Flight> flights = new ArrayList<>();
         File dir = new File("/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database");
         File[] files = dir.listFiles();
         if (files != null) {
@@ -43,9 +40,10 @@ public class FlightData {
                             int firstClassFarePrice = Integer.parseInt(flightData[9].trim());
                             int secondClassSeats = Integer.parseInt(flightData[10].trim());
                             int secondClassFarePrice = Integer.parseInt(flightData[11].trim());
-                            Flight flight = new Flight(flightNumber, source, destination, departureDate, arrivalTime, departureTime, seatType, economicSeats, economicFarePrice, firstClassSeats, firstClassFarePrice, secondClassSeats, secondClassFarePrice, numberOfPassengers);
-                            flights.add(flight);
 
+
+                            Flight flight = new Flight(flightNumber, source, destination, departureDate, arrivalTime, departureTime, economicSeats, economicFarePrice, firstClassSeats, firstClassFarePrice, secondClassSeats, secondClassFarePrice);
+                            flights.add(flight);
 
                         }
                     } catch (IOException e) {
@@ -54,10 +52,7 @@ public class FlightData {
                 }
             }
         }
-
-        final List<Flight> flightsData = flights.stream().sorted(Comparator.comparing(Flight::getNumber)).collect(Collectors.toList());
-        flights = new ArrayList<Flight>();
-        return flightsData;
+        return flights.stream().sorted(Comparator.comparing(Flight::getNumber)).collect(Collectors.toList());
     }
 
 }

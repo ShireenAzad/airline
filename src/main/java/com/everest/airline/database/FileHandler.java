@@ -2,6 +2,7 @@ package com.everest.airline.database;
 
 import com.everest.airline.Seat;
 import com.everest.airline.model.Flight;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,11 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileHandler {
-    public static List<Flight> flights = new ArrayList<>();
-    public static List<Flight> flightsSearch = new ArrayList<>();
-
-    public static List<Flight> flightsSearch(String from, String to, String Date, int numberOfPassengers, String seatType) {
-        flights = FlightData.readFilesIntoList(numberOfPassengers, seatType);
+@Autowired FlightData flightData;
+    public  List<Flight> flightsSearch(String from, String to, String Date, int numberOfPassengers, String seatType) {
+        List<Flight> flightsSearch = new ArrayList<>();
+        List<Flight> flights;
+         flights = flightData.readFilesIntoList();
         int numberOfAvailableSeats;
         for (Flight flight : flights) {
             if (seatType.equals("Economic")) {
@@ -33,10 +34,8 @@ public class FileHandler {
             if (flight.getSource().equals(from) && flight.getDestination().equals(to) && flight.getDepartureDate().equals(LocalDate.parse(Date)) && numberOfAvailableSeats > numberOfPassengers)
                 flightsSearch.add(flight);
         }
-        List<Flight> data = flightsSearch.stream()
+        return flightsSearch.stream()
                 .sorted(Comparator.comparing(Flight::getNumber))
                 .collect(Collectors.toList());
-        flightsSearch = new ArrayList<>();
-        return data;
     }
 }

@@ -33,15 +33,15 @@ public class Seat {
             totalSeats = secondClassSeats;
         int numberOfSeats = (int) Math.round(30 * totalSeats / 100);
         if (seats <= numberOfSeats)
-            farePrice = farePrice;
+            return farePrice;
         int numberOfSeats1 = (int) Math.round(50 * totalSeats / 100);
         if (seats > numberOfSeats && seats <= numberOfSeats1)
-            farePrice = (int) (farePrice + (20 / 100) * farePrice);
+            return farePrice = (int) (farePrice + (20 / 100) * farePrice);
         int numberOfSeats2 = (int) Math.round(75 * totalSeats / 100);
         if (seats > numberOfSeats1 && seats <= numberOfSeats2)
-            farePrice = (int) (farePrice + (35 / 100) * farePrice);
+            return  (int) (farePrice + (35 / 100) * farePrice);
         if (seats > numberOfSeats2 && seats <= totalSeats)
-            farePrice = (int) (farePrice + (50 / 100) * farePrice);
+            return  (int) (farePrice + (50 / 100) * farePrice);
         return farePrice;
 
     }

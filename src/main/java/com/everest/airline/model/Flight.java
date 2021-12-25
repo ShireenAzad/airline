@@ -4,7 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 public class Flight {
     private final long number;
     private final String source;
@@ -19,27 +18,23 @@ public class Flight {
     private int firstClassPrice;
     private int secondClassSeats;
     private int secondClassPrice;
-    private final String seatType;
-    private final int numberOfPassengers;
 
 
-    public Flight(long number, String source, String destination, LocalDate departureDate, LocalTime arrivalTime, LocalTime departureTime, String seatType, int economicClassSeats, int economicFarePrice, int firstClassSeats, int firstClassPrice, int secondClassSeats, int secondClassPrice, int numberOfPassengers) {
+    public Flight(long number, String source, String destination, LocalDate departureDate, LocalTime arrivalTime, LocalTime departureTime, int economicClassSeats, int economicFarePrice, int firstClassSeats, int firstClassPrice, int secondClassSeats, int secondClassPrice) {
         this.number = number;
         this.source = source;
         this.destination = destination;
         this.departureDate = departureDate;
         this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
-        this.seatType = seatType;
         this.economicClassSeats = economicClassSeats;
         this.economicFarePrice = economicFarePrice;
         this.firstClassSeats = firstClassSeats;
         this.firstClassPrice = firstClassPrice;
         this.secondClassSeats = secondClassSeats;
         this.secondClassPrice = secondClassPrice;
-        this.numberOfPassengers = numberOfPassengers;
-    }
 
+    }
     public int getEconomicClassSeats() {
         return economicClassSeats;
     }
@@ -72,9 +67,6 @@ public class Flight {
         return destination;
     }
 
-    public int getNumberOfPassengers() {
-        return numberOfPassengers;
-    }
 
     public LocalDate getDepartureDate() {
         return departureDate;
@@ -88,9 +80,6 @@ public class Flight {
         return departureTime;
     }
 
-    public String getSeatType() {
-        return seatType;
-    }
 
     public int getEconomicFarePrice() {
         return economicFarePrice;

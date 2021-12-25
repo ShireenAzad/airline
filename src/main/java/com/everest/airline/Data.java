@@ -1,24 +1,29 @@
 package com.everest.airline;
 
-import com.everest.airline.database.FlightData;
-import com.everest.airline.model.Flight;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public final class Data {
-    private final long flightNumber;
-    private final int economicSeats;
-    private final int firstSeats;
-    private final int secondSeats;
+    private long flightNumber;
+    private int economicSeats;
+    private int firstSeats;
+    private int secondSeats;
 
-    public Data(final long flightNumber, final int economicSeats, final int firstSeats, final int secondSeats) {
-        this.flightNumber = flightNumber;
-        this.economicSeats = economicSeats;
+    public Data(long flightNumber, int economicSeats, int firstSeats, int secondSeats) {
         this.firstSeats = firstSeats;
+        this.flightNumber = flightNumber;
         this.secondSeats = secondSeats;
+        this.economicSeats = economicSeats;
 
+    }
+
+    public void setEconomicSeats(int economicSeats) {
+        this.economicSeats = this.economicSeats;
+    }
+
+    public void setFirstSeats(int firstSeats) {
+        this.firstSeats = firstSeats;
+    }
+
+    public void setSecondSeats(int secondSeats) {
+        this.secondSeats = secondSeats;
     }
 
     public long getFlightNumber() {

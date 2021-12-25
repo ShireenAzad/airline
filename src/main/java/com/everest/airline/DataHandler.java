@@ -3,25 +3,28 @@ package com.everest.airline;
 import com.everest.airline.database.FlightData;
 import com.everest.airline.model.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
+@ComponentScan({"com.everest.airline.database.FlightData"})
 public class DataHandler {
-    private static int numberOfPassengers;
-    private static Long number;
-    private static String seatType;
+    @Autowired FlightData flightData;
+    private final int numberOfPassengers;
+    private final Long number;
+    private final String seatType;
 
     public DataHandler(Long number, String seatType, int numberOfPassengers) {
-        DataHandler.number = number;
-        DataHandler.seatType = seatType;
-        DataHandler.numberOfPassengers = numberOfPassengers;
+       this.number = number;
+        this.seatType = seatType;
+        this.numberOfPassengers = numberOfPassengers;
     }
 
-    public static Flight writeFile() throws IOException {
-        List<Flight> flights = FlightData.readFilesIntoList(numberOfPassengers, seatType);
+    public  Flight writeFile() throws IOException {
+        List<Flight> flights = flightData.readFilesIntoList();
         String directoryPath = "/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database/";
         String filename = number + ".txt";
         String filepath = directoryPath + filename;
@@ -29,7 +32,6 @@ public class DataHandler {
         for (Flight flight : flights) {
             if (flight != null && flight.getNumber() == number) {
                 if (seatType.equals("Economic")){
-
                     flight.updateEconomicClassSeats(flight.getEconomicClassSeats() - numberOfPassengers);}
                 else if (seatType.equals("FirstClass"))
                     flight.updateFirstClassSeats(flight.getFirstClassSeats() - numberOfPassengers);
