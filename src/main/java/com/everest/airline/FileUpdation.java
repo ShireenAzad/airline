@@ -1,28 +1,38 @@
 package com.everest.airline;
 
-import com.everest.airline.database.FlightData;
+import com.everest.airline.database.FlightsData;
 import com.everest.airline.model.Flight;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-public class FileUpdation {
-    public void updateFile(long number, Flight flight) throws IOException {
-        FlightData flightData=new FlightData();
-        List<Flight> flights = flightData.readFilesIntoList();
-        String directoryPath = "/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database/";
-        String filename = number + ".txt";
-        String filepath = directoryPath + filename;
-        File file = new File(filepath);
-        String data = flight.getNumber() + "," + flight.getSource() + "," + flight.getDestination() + "," + flight.getDepartureDate() +
-                "," + flight.getArrivalTime() + "," + flight.getDepartureTime() + "," + flight.getEconomicClassSeats() + "," + flight.getEconomicFarePrice() +
-                "," + flight.getFirstClassSeats() + "," + flight.getFirstClassPrice() + "," + flight.getSecondClassSeats() + "," + flight.getSecondClassPrice();
-        FileWriter writer = new FileWriter(file);
-        writer.write(data);
-        writer.close();
+import java.util.Map;
 
+public class FileUpdation {
+    public Flight updateFile(String updatedFlightedFileData, long number) {
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            Map<String, String> map = mapper.readValue(updatedFlightedFileData, Map.class);
+            if (map.size() == 12) {
+                FlightsData flightsData =new FlightsData();
+                List<Flight> data = flightsData.readFilesIntoList();
+                Flight existingFlight = data.stream().filter(f -> f.getNumber() == number).findFirst().orElse(null);
+                Flight flight = new Flight(number, map.get("source"), map.get("destination"), LocalDate.parse(map.get("departureDate"), DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalTime.parse(map.get("arrivalTime")), LocalTime.parse(map.get("departureTime")), Integer.parseInt(map.get("economicClassSeats")), Integer.valueOf(map.get("economicFarePrice")), Integer.parseInt(map.get("firstClassSeats")), Integer.valueOf(map.get("firstClassPrice")), Integer.valueOf(map.get("secondClassSeats")), Integer.valueOf(map.get("secondClassPrice")));
+                data.set(data.indexOf(existingFlight), flight);
+                FileWriting fileWriting=new FileWriting();
+                fileWriting.writeFile(flight);
+                return flight;
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.everest.airline.model;
 
+import com.everest.airline.Seat;
+import com.everest.airline.enums.SeatType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -44,11 +46,9 @@ public class Flight {
     public void updateEconomicClassSeats(int seats) {
         this.economicClassSeats = seats;
     }
-
     public void updateFirstClassSeats(int seats) {
         this.firstClassSeats = seats;
     }
-
     public void updateSecondClassSeats(int seats) {
         this.secondClassSeats = seats;
     }
@@ -57,50 +57,59 @@ public class Flight {
         return number;
     }
 
-    public String getSource() {
-
-        return source;
-    }
-
-    public String getDestination() {
-
-        return destination;
-    }
-
-
+    public String getSource() {return source;}
+    public String getDestination() {return destination;}
     public LocalDate getDepartureDate() {
         return departureDate;
     }
-
     public LocalTime getArrivalTime() {
         return arrivalTime;
     }
-
     public LocalTime getDepartureTime() {
         return departureTime;
     }
-
-
     public int getEconomicFarePrice() {
         return economicFarePrice;
     }
-
     public int getFirstClassSeats() {
         return firstClassSeats;
     }
-
     public int getSecondClassSeats() {
         return secondClassSeats;
     }
-
     public int getFirstClassPrice() {
         return firstClassPrice;
     }
-
     public int getSecondClassPrice() {
         return secondClassPrice;
     }
+    public String getSeatType(String seatType){
+       return seatType;
+    }
+    public int getTotalSeats(String seatType){
+        if (seatType.equals(SeatType.Economic.toString()))
+            return getEconomicClassSeats();
+        else if (seatType.equals(SeatType.FirstClass.toString()))
+           return getFirstClassSeats();
+         else
+            return getSecondClassSeats();
 
+    }
+    public int getFarePrice(String seatType){
+        if (seatType.equals(SeatType.Economic.toString())) {
+            Seat seat = new Seat(seatType, getEconomicClassSeats(), getEconomicFarePrice());
+            updateEconomicClassPrice(getEconomicFarePrice() + (seat.getFarePrice() + seat.FarePrice(getDepartureDate())));
+            return getEconomicFarePrice();
+        } else if (seatType.equals(SeatType.FirstClass.toString())) {
+            Seat seat = new Seat(seatType, getFirstClassSeats(), getFirstClassPrice());
+            updateFirstClassPrice(getFirstClassPrice() + (seat.getFarePrice() + seat.FarePrice(getDepartureDate())));
+            return getFirstClassPrice();
+        } else {
+            Seat seat = new Seat(seatType,getSecondClassSeats(), getSecondClassPrice());
+            updateSecondClassPrice(getSecondClassPrice() + (seat.getFarePrice() + seat.FarePrice(getDepartureDate())));
+            return getSecondClassPrice();
+        }
+    }
 
 }
 
