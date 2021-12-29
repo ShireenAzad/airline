@@ -1,9 +1,9 @@
 package com.everest.airline.controller;
 
-import com.everest.airline.BookTicket;
-import com.everest.airline.database.FlightsSearch;
+import com.everest.airline.flighthandler.BookTicket;
+import com.everest.airline.flighthandler.FlightsSearch;
 import com.everest.airline.model.Flight;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.everest.airline.model.Seats;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,17 +35,15 @@ public class SearchController {
 
     @ModelAttribute
     @RequestMapping(value = "/book")
-    public String booking(Long number, String seatType, int numberOfPassengers, Model model) throws IOException {
+    public String booking(long number, String seatType, int numberOfPassengers, Model model) throws IOException {
         BookTicket bookTicket = new BookTicket();
-        Flight flight = bookTicket.ticketBooking(number, seatType, numberOfPassengers);
-        model.addAttribute("flight", flight);
+        Seats seats = bookTicket.ticketBooking(number, seatType, numberOfPassengers);
+        model.addAttribute("flight", seats);
         return "redirect:book.html";
     }
 
     @RequestMapping(value = "/data")
     public String details(@ModelAttribute() Long number) {
-
-        System.out.println(number);
         return "data";
 
     }

@@ -25,10 +25,9 @@
         <td th:text="${flight.destination}"></td>
         <td th:text="${flight.arrivalTime}"></td>
         <td th:text="${flight.departureTime}"></td>
-        <td th:text="${flight.getSeatType({seatType})}"></td>
-        <td th:text="${flight.getTotalSeats({seatType})}"></td>
+        <td th:text="${seatType}"></td>
+        <td></td>
         <td th:text="${passengers}"></td>
-        <td th:text="${flight.getFarePrice({seatType})}"></td>
         <td scope="row"><a th:href="@{/book(number=${flight.number},seatType=${seatType},numberOfPassengers=${passengers})}" th:text="BookTicket" class="btn btn-primary" ></a></td>
     </tr>
 </table>

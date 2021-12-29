@@ -1,17 +1,11 @@
-package com.everest.airline;
+package com.everest.airline.flighthandler;
 
-import com.everest.airline.database.FlightsData;
 import com.everest.airline.model.Flight;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.everest.airline.model.Seats;
 
 import java.io.IOException;
-import java.util.List;
 
 public class FlightUpdate {
-    @Autowired
-    FlightsData flightsData;
-    @Autowired
-    FileWriting fileWriting;
     private final int numberOfPassengers;
     private final Long number;
     private final String seatType;
@@ -21,15 +15,17 @@ public class FlightUpdate {
         this.seatType = seatType;
         this.numberOfPassengers = numberOfPassengers;
     }
-    public Flight updateFlight(Flight flight) throws IOException {
+    public Seats updateSeats(Flight flight) throws IOException {
             if (flight != null && flight.getNumber() == number) {
+        FlightService flightService=new FlightService();
+        Seats seat=flightService.flightSeats(flight.getNumber());
                 if (seatType.equals("Economic"))
-                    flight.updateEconomicClassSeats(flight.getEconomicClassSeats() - numberOfPassengers);
+                    seat.setEconomicClass(seat.getEconomicClass()-numberOfPassengers);
                 else if (seatType.equals("FirstClass"))
-                    flight.updateFirstClassSeats(flight.getFirstClassSeats() - numberOfPassengers);
+                    seat.setFirstClass(seat.getFirstClass()-numberOfPassengers);
                 else
-                    flight.updateSecondClassSeats(flight.getSecondClassSeats() - numberOfPassengers);
-                return flight;
+                    seat.setSecondClass(seat.getSecondClass()-numberOfPassengers);
+                return seat;
             }
 
         throw new NullPointerException("Flight Data not updated");
