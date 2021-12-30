@@ -13,7 +13,7 @@ public class BookTicket {
         FlightUpdate flightUpdate=new FlightUpdate(number,  seatType, numberOfPassengers);
         Seats seats =flightUpdate.updateSeats(flight1);
         FileWriting fileWriting=new FileWriting();
-        fileWriting.writeFile(seats,number);
+        fileWriting.updatedDataToFile(seats,number);
         return seats;
     }
 }

@@ -15,10 +15,10 @@ import java.util.List;
 
 public class FlightsApiController {
 @Autowired
-FlightsData flightsData;
+Flights flights;
     @GetMapping("/flights")
-    public List<Flight> getAllFlights() throws IOException {
-            List<Flight>data=flightsData.readFilesIntoList();
+    public List<FlightData> getAllFlights() throws IOException {
+            List<FlightData>data= flights.readFilesIntoList();
             return data;
 
 

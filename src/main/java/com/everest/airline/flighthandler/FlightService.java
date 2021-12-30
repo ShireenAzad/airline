@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.time.LocalDate;
@@ -31,11 +31,11 @@ public class FlightService {
         File file = new File(filePath);
         boolean existFile = file.exists();
         if (!existFile) throw new NoSuchFileException("File doesn't exist");
-        String fileData = String.valueOf(Files.readAllLines(new File(filePath).toPath(), Charset.defaultCharset()));
+        String fileData =  Files.readString(new File(filePath).toPath(), StandardCharsets.ISO_8859_1);
         String[] flightData = fileData.split(",");
         int economicSeats = Integer.parseInt(flightData[6].trim());
-        int firstClassSeats = Integer.parseInt(flightData[7].trim());
-        int secondClassSeats = Integer.parseInt(flightData[8].trim());
+        int firstClassSeats = Integer.parseInt(flightData[8].trim());
+        int secondClassSeats = Integer.parseInt(flightData[10].trim());
         return new Seats(economicSeats, firstClassSeats, secondClassSeats);
 
     }
@@ -45,10 +45,10 @@ public class FlightService {
         File file = new File(filePath);
         boolean existFile = file.exists();
         if (!existFile) throw new NoSuchFileException("File doesn't exist");
-        String fileData = String.valueOf(Files.readAllLines(new File(filePath).toPath(), Charset.defaultCharset()));
+        String fileData =  Files.readString(new File(filePath).toPath(), StandardCharsets.ISO_8859_1);
         String[] flightData = fileData.split(",");
-        int economicFarePrice = Integer.parseInt(flightData[9].trim());
-        int firstClassFarePrice = Integer.parseInt(flightData[10].trim());
+        int economicFarePrice = Integer.parseInt(flightData[7].trim());
+        int firstClassFarePrice = Integer.parseInt(flightData[9].trim());
         int secondClassFarePrice = Integer.parseInt(flightData[11].trim());
         FarePrice farePrice = new FarePrice( economicFarePrice, firstClassFarePrice, secondClassFarePrice);
         return farePrice;

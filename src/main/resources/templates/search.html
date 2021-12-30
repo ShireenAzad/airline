@@ -18,17 +18,21 @@
     <th>seatType</th>
     <th>Available Seats</th>
     <th>Passengers</th>
+    <th>Departure Date</th>
     <th>Fair Price</th>
     <tr th:each="flight:${flights}" onclick="booking(this)">
-        <td th:text="${flight.number}"></td>
-        <td th:text="${flight.source}"></td>
-        <td th:text="${flight.destination}"></td>
-        <td th:text="${flight.arrivalTime}"></td>
-        <td th:text="${flight.departureTime}"></td>
+        <td th:text="${flight.getFlight().getNumber()}"></td>
+        <td th:text="${flight.getFlight().getSource()}"></td>
+       <td th:text="${flight.getFlight().getDestination()}"></td>
+        <td th:text="${flight.getFlight().getArrivalTime()}"></td>
+        <td th:text="${flight.getFlight().getDepartureTime()}"></td>
         <td th:text="${seatType}"></td>
-        <td></td>
+        <td th:text="${flight.getSeats().getTotalSeats({seatType})}"></td>
         <td th:text="${passengers}"></td>
-        <td scope="row"><a th:href="@{/book(number=${flight.number},seatType=${seatType},numberOfPassengers=${passengers})}" th:text="BookTicket" class="btn btn-primary" ></a></td>
+        <td th:text="${departureDate}"></td>
+        <td th:text="${passengers*flight.getFarePrice().getTotalFarePrice({seatType},{departureDate})}"></td>
+
+        <td scope="row"><a th:href="@{/book(number=${flight.getFlight().getNumber()},seatType=${seatType},numberOfPassengers=${passengers})}" th:text="BookTicket" class="btn btn-primary" ></a></td>
     </tr>
 </table>
 </body>

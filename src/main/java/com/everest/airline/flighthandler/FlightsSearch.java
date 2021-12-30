@@ -9,28 +9,24 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FlightsSearch {
-    public List<Flight> searchFlights(String from, String to, String Date, int numberOfPassengers, String seatType) throws IOException {
-        List<Flight> flightsSearch = new ArrayList<>();
-        FlightsData flightsData = new FlightsData();
-        List<Flight> flights = flightsData.readFilesIntoList();
-        flights=flights.stream()
-                .sorted(Comparator.comparing(Flight::getNumber))
-                .collect(Collectors.toList());
-        for (Flight flight : flights) {
+    public List<FlightData> searchFlights(String from, String to, String Date, int numberOfPassengers, String seatType) throws IOException {
+        List<FlightData> flightsSearch = new ArrayList<>();
+        Flights flights = new Flights();
+        List<FlightData> flightsInformation = flights.readFilesIntoList();
+        for (FlightData flight : flightsInformation) {
+
             FlightService flightService=new FlightService();
-                Seats seats=flightService.flightSeats(flight.getNumber());
+                Seats seats=flightService.flightSeats(flight.getFlight().getNumber());
             int numberOfAvailableSeats= seats.getTotalSeats(seatType);
-            if (flight.getSource().equals(from) && flight.getDestination().equals(to) && flight.getDepartureDate().equals(LocalDate.parse(Date)) && numberOfAvailableSeats > numberOfPassengers)
+            if (flight.getFlight().getSource().equals(from) && flight.getFlight().getDestination().equals(to) && flight.getFlight().getDepartureDate().equals(LocalDate.parse(Date)) && numberOfAvailableSeats > numberOfPassengers)
                 flightsSearch.add(flight);
+
         }
-        return flightsSearch.stream()
-                .sorted(Comparator.comparing(Flight::getNumber))
-                .collect(Collectors.toList());
+        return flightsSearch;
     }
 
     public Flight getSpecificFlight(long number) throws IOException {
@@ -38,5 +34,14 @@ public class FlightsSearch {
         String contents = Files.readString(new File(file).toPath(), StandardCharsets.ISO_8859_1);
         FlightService flightService = new FlightService();
         return flightService.newFlight(contents);
+    }
+    public long getLastFlightNumber(){
+        File dir = new File("/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database");
+        File[] files = dir.listFiles();
+        if(files==null)throw new NullPointerException("No such folder exist");
+        Arrays.sort(files);
+        String filename=files[files.length - 1].getName();
+        long number= Long.parseLong(filename.substring(0,filename.indexOf('.')))+1;
+        return number;
     }
 }

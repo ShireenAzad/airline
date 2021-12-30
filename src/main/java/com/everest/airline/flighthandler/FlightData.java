@@ -8,6 +8,14 @@ public class FlightData {
     private Flight flight;
     private Seats seats;
     private FarePrice farePrice;
+    FlightData(){
+
+    }
+    public FlightData(Flight flight, Seats seats, FarePrice farePrice) {
+        this.flight=flight;
+        this.seats=seats;
+        this.farePrice=farePrice;
+    }
 
     public Flight getFlight() {
         return flight;

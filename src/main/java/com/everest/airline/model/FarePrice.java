@@ -1,7 +1,12 @@
 package com.everest.airline.model;
 
+import com.everest.airline.enums.SeatType;
+import com.everest.airline.flighthandler.SeatsService;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class FarePrice {
-    private long flightNumber;
     private int economicClassPrice;
     private int firstClassPrice;
     private int secondClassPrice;
@@ -10,14 +15,13 @@ public class FarePrice {
 
     }
 
-    public FarePrice( int economicClassPrice, int firstClassPrice, int secondClassPrice) {
+    public FarePrice(int economicClassPrice, int firstClassPrice, int secondClassPrice) {
 
         this.economicClassPrice = economicClassPrice;
         this.firstClassPrice = firstClassPrice;
         this.secondClassPrice = secondClassPrice;
 
     }
-
 
 
     public void setEconomicClassPrice(int economicClassPrice) {
@@ -43,5 +47,22 @@ public class FarePrice {
 
     public int getSecondClassPrice() {
         return secondClassPrice;
+    }
+
+    public int getTotalFarePrice(String seatType,String departureDate) {
+        Seats seats = new Seats();
+        LocalDate date = LocalDate.parse(departureDate, DateTimeFormatter.ofPattern("yyyy-MM-d"));
+        if (seatType.equals(SeatType.Economic.toString())) {
+
+            SeatsService seatsService = new SeatsService(seatType, seats.getTotalSeats(seatType), getEconomicClassPrice());
+            return seatsService.getTotalPrice(date);
+        }
+
+        if (seatType.equals(SeatType.FirstClass.toString())) {
+            SeatsService seatsService = new SeatsService(seatType, seats.getTotalSeats(seatType), getFirstClassPrice());
+            return seatsService.getTotalPrice(date);
+        }
+        SeatsService seatsService = new SeatsService(seatType, seats.getTotalSeats(seatType), getSecondClassPrice());
+        return seatsService.getTotalPrice(date);
     }
 }
