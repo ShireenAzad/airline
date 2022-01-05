@@ -3,7 +3,6 @@ package com.everest.airline.model;
 import com.everest.airline.enums.SeatType;
 
 public class Seats {
-    private long flightNumber;
     private int economicClass;
     private int firstClass;
     private int secondClass;

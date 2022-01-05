@@ -15,8 +15,8 @@ import java.util.List;
 
 @Component
 public class Flights {
-    public List<FlightData> readFilesIntoList() throws IOException {
-        ArrayList<FlightData> flights = new ArrayList<>();
+    public List<Flight> readFilesIntoList() throws IOException {
+        ArrayList<Flight> flights = new ArrayList<>();
         File dir = new File("/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database");
         File[] files = dir.listFiles();
         if (files == null) throw new NullPointerException("Folder doesn't exist");
@@ -28,10 +28,7 @@ public class Flights {
                     while ((line = inputStream.readLine()) != null) {
                         FlightService flightService = new FlightService();
                         Flight flight=flightService.newFlight(line);
-                        Seats seats=flightService.flightSeats(flight.getNumber());
-                        FarePrice farePrice=flightService.seatsPrice(flight.getNumber());
-                        FlightData flightData=new FlightData(flight,seats,farePrice);
-                        flights.add(flightData);
+                        flights.add(flight);
                     }
                 }
             }

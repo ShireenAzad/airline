@@ -2,10 +2,13 @@ package com.everest.airline.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Flight {
+    private FarePrice farePrice;
+    private Seats seats;
     private long number;
     private String source;
     private String destination;
@@ -18,13 +21,15 @@ public class Flight {
 
     }
 
-    public Flight(Long number, String source, String destination, LocalDate departureDate, LocalTime arrivalTime, LocalTime departureTime) {
+    public Flight(Long number, String source, String destination, LocalDate departureDate, LocalTime arrivalTime, LocalTime departureTime, Seats seats, FarePrice farePrice) {
         this.number = number;
         this.source = source;
         this.destination = destination;
         this.departureDate = departureDate;
         this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
+        this.seats = seats;
+        this.farePrice = farePrice;
     }
 
     public void setNumber(Long number) {
@@ -73,6 +78,15 @@ public class Flight {
 
     public LocalTime getDepartureTime() {
         return departureTime;
+    }
+
+    public Seats getSeats() throws IOException {
+        return seats;
+    }
+
+    public FarePrice getFarePrice() throws IOException {
+
+        return farePrice;
     }
 
 }

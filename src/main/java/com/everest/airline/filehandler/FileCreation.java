@@ -1,18 +1,13 @@
 package com.everest.airline.filehandler;
 
-import com.everest.airline.flighthandler.FlightData;
 import com.everest.airline.flighthandler.FlightsSearch;
-import com.everest.airline.model.FarePrice;
 import com.everest.airline.model.Flight;
-import com.everest.airline.model.Seats;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class FileCreation {
-    public long createFile(FlightData flightData) throws IOException {
+    public long createFile(Flight flight) throws IOException {
         FlightsSearch flightsSearch=new FlightsSearch();
         long number=flightsSearch.getLastFlightNumber();
         String filePath = "/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database/" + number + ".txt";
@@ -22,7 +17,7 @@ public class FileCreation {
         if (!result)
             throw new NullPointerException("File already exist at location: " + file.getCanonicalPath());
         FileWriting fileWriting=new FileWriting();
-        fileWriting.writeFile(flightData,number,file);
+        fileWriting.writeFile(flight,number,file);
         return number;
 
     }

@@ -1,13 +1,13 @@
 package com.everest.airline.controller;
 
 import com.everest.airline.flighthandler.BookTicket;
-import com.everest.airline.flighthandler.FlightData;
 import com.everest.airline.flighthandler.FlightsSearch;
 import com.everest.airline.model.Flight;
 import com.everest.airline.model.Seats;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -23,7 +23,7 @@ public class SearchController {
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public String search(String from, String to, String departureDate, int numberOfPassengers, String seatType, Model model) throws IOException {
-        List<FlightData> flights;
+        List<Flight> flights;
         FlightsSearch flightsSearch = new FlightsSearch();
         flights = flightsSearch.searchFlights(from, to, departureDate, numberOfPassengers, seatType);
 
@@ -42,11 +42,11 @@ public class SearchController {
         BookTicket bookTicket = new BookTicket();
         Seats seats = bookTicket.ticketBooking(number, seatType,numberOfPassengers);
         model.addAttribute("flight", seats);
-        return "redirect:book.html";
+        return "redirect:data/{number}";
     }
 
-    @RequestMapping(value = "/data")
-    public String details(@ModelAttribute() Long number) {
+    @RequestMapping(value = "/data/{number}")
+    public String details(@PathVariable Long number) {
         return "data";
 
     }

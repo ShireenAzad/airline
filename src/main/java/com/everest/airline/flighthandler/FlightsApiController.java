@@ -17,8 +17,8 @@ public class FlightsApiController {
 @Autowired
 Flights flights;
     @GetMapping("/flights")
-    public List<FlightData> getAllFlights() throws IOException {
-            List<FlightData>data= flights.readFilesIntoList();
+    public List<Flight> getAllFlights() throws IOException {
+            List<Flight>data= flights.readFilesIntoList();
             return data;
 
 
@@ -33,16 +33,16 @@ Flights flights;
     @PostMapping(value = "/flights", consumes = MediaType.ALL_VALUE)
 
     @ResponseBody
-    public long create(@RequestBody FlightData flightData) throws IOException {
+    public long create(@RequestBody Flight flight) throws IOException {
         FileCreation fileCreation=new FileCreation();
-               return fileCreation.createFile(flightData);
+               return fileCreation.createFile(flight);
     }
 
     // Update
     @PutMapping("/flights/{number}")
-    public Flight update(@RequestBody FlightData flightData,@PathVariable long number) throws IOException {
+    public Flight update(@RequestBody Flight flight,@PathVariable long number) throws IOException {
         FileUpdation fileUpdation=new FileUpdation();
-                return fileUpdation.updateFile(flightData,number);
+                return fileUpdation.updateFile(flight,number);
     }
 
     // Update

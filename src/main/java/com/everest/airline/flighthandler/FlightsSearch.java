@@ -13,17 +13,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FlightsSearch {
-    public List<FlightData> searchFlights(String from, String to, String Date, int numberOfPassengers, String seatType) throws IOException {
-        List<FlightData> flightsSearch = new ArrayList<>();
+    public List<Flight> searchFlights(String from, String to, String Date, int numberOfPassengers, String seatType) throws IOException {
+        List<Flight> flightsSearch = new ArrayList<>();
         Flights flights = new Flights();
-        List<FlightData> flightsInformation = flights.readFilesIntoList();
-        for (FlightData flight : flightsInformation) {
+        List<Flight> flightsInformation = flights.readFilesIntoList();
+        for (Flight flight : flightsInformation) {
 
-            FlightService flightService=new FlightService();
-                Seats seats=flightService.flightSeats(flight.getFlight().getNumber());
-            int numberOfAvailableSeats= seats.getTotalSeats(seatType);
-            if (flight.getFlight().getSource().equals(from) && flight.getFlight().getDestination().equals(to) && flight.getFlight().getDepartureDate().equals(LocalDate.parse(Date)) && numberOfAvailableSeats > numberOfPassengers)
+            FlightService flightService = new FlightService();
+            int numberOfAvailableSeats = flight.getSeats().getTotalSeats(seatType);
+            if (flight.getSource().equals(from) && flight.getDestination().equals(to) && flight.getDepartureDate().equals(LocalDate.parse(Date)) && numberOfAvailableSeats > numberOfPassengers)
                 flightsSearch.add(flight);
+
 
         }
         return flightsSearch;
@@ -35,13 +35,14 @@ public class FlightsSearch {
         FlightService flightService = new FlightService();
         return flightService.newFlight(contents);
     }
-    public long getLastFlightNumber(){
+
+    public long getLastFlightNumber() {
         File dir = new File("/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database");
         File[] files = dir.listFiles();
-        if(files==null)throw new NullPointerException("No such folder exist");
+        if (files == null) throw new NullPointerException("No such folder exist");
         Arrays.sort(files);
-        String filename=files[files.length - 1].getName();
-        long number= Long.parseLong(filename.substring(0,filename.indexOf('.')))+1;
+        String filename = files[files.length - 1].getName();
+        long number = Long.parseLong(filename.substring(0, filename.indexOf('.'))) + 1;
         return number;
     }
 }
