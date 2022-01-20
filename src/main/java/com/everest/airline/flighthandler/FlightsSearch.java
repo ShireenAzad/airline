@@ -20,7 +20,8 @@ public class FlightsSearch {
         for (Flight flight : flightsInformation) {
 
             FlightService flightService = new FlightService();
-            int numberOfAvailableSeats = flight.getSeats().getTotalSeats(seatType);
+            Seats seats=new Seats();
+            int numberOfAvailableSeats = seats.getTotalSeats(seatType);
             if (flight.getSource().equals(from) && flight.getDestination().equals(to) && flight.getDepartureDate().equals(LocalDate.parse(Date)) && numberOfAvailableSeats > numberOfPassengers)
                 flightsSearch.add(flight);
 

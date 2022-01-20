@@ -36,9 +36,9 @@ public class FileWriting {
 
     public void writeFile(Flight flight,long number,File file) throws IOException {
         if(flight==null) throw new NullPointerException("Flight object is Null");
-        Seats seats= flight.getSeats();
+        Seats seats=new Seats();
         if(seats==null) throw new NullPointerException("Flight seats Object is null");
-        FarePrice farePrice= flight.getFarePrice();
+        FarePrice farePrice=new FarePrice();
         if(farePrice==null) throw new NullPointerException("Fare Price of Flights seats are null");
         String newFlightData = number + "," + flight.getSource() + "," + flight.getDestination() + "," + flight.getDepartureDate() +
                 "," + flight.getArrivalTime() + "," + flight.getDepartureTime()+","+ seats.getEconomicClass()+","+ farePrice.getEconomicClassPrice()+","+

@@ -5,11 +5,7 @@ import com.everest.airline.model.Flight;
 import com.everest.airline.model.Seats;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -25,15 +21,16 @@ public class FlightService {
         LocalTime departureTime = LocalTime.parse(flightData[5].trim(), DateTimeFormatter.ofPattern("HH:mm"));
        Seats seats=flightSeats(data);
        FarePrice farePrice=seatsPrice(data);
-        return new Flight(flightNumber, source, destination, departureDate, arrivalTime, departureTime,seats,farePrice);
+        return new Flight(flightNumber, source, destination, departureDate, arrivalTime, departureTime);
     }
 
     public Seats flightSeats(String data) throws IOException {
         String[] flightData = data.split(",");
+        int number=Integer.parseInt(flightData[0].trim());
         int economicSeats = Integer.parseInt(flightData[6].trim());
         int firstClassSeats = Integer.parseInt(flightData[7].trim());
         int secondClassSeats = Integer.parseInt(flightData[8].trim());
-        return new Seats(economicSeats, firstClassSeats, secondClassSeats);
+        return new Seats(number,economicSeats, firstClassSeats, secondClassSeats);
 
     }
 

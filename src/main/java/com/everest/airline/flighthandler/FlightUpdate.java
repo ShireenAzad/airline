@@ -19,14 +19,15 @@ public class FlightUpdate {
     public Seats updateSeats(Flight flight) throws IOException {
         if (flight != null && flight.getNumber() == number) {
             FlightService flightService = new FlightService();
-
+            Seats seats=new Seats();
             if (seatType.equals("Economic"))
-                flight.getSeats().setEconomicClass(flight.getSeats().getEconomicClass() - numberOfPassengers);
+               seats.setEconomicClass(seats.getEconomicClass() - numberOfPassengers);
             else if (seatType.equals("FirstClass"))
-                flight.getSeats().setFirstClass(flight.getSeats().getFirstClass() - numberOfPassengers);
+                seats.setFirstClass(seats.getFirstClass() - numberOfPassengers);
             else
-                flight.getSeats().setSecondClass(flight.getSeats().getSecondClass() - numberOfPassengers);
-            return flight.getSeats();
+                seats.setSecondClass(seats.getSecondClass() - numberOfPassengers);
+
+            return seats;
         }
 
         throw new NullPointerException("Flight Data not updated");
