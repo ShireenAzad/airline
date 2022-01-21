@@ -21,12 +21,12 @@ public class FlightService {
         LocalTime departureTime = LocalTime.parse(flightData[5].trim(), DateTimeFormatter.ofPattern("HH:mm"));
        Seats seats=flightSeats(data);
        FarePrice farePrice=seatsPrice(data);
-        return new Flight(flightNumber, source, destination, departureDate, arrivalTime, departureTime);
+        return new Flight(flightNumber, source, destination, departureDate, arrivalTime, departureTime,seats,farePrice);
     }
 
     public Seats flightSeats(String data) throws IOException {
         String[] flightData = data.split(",");
-        int number=Integer.parseInt(flightData[0].trim());
+        Long number=Long.parseLong(flightData[0].trim());
         int economicSeats = Integer.parseInt(flightData[6].trim());
         int firstClassSeats = Integer.parseInt(flightData[7].trim());
         int secondClassSeats = Integer.parseInt(flightData[8].trim());
@@ -36,10 +36,11 @@ public class FlightService {
 
     public FarePrice seatsPrice(String data) throws IOException {
         String[] flightData = data.split(",");
+        Long number=Long.parseLong(flightData[0].trim());
         int economicFarePrice = Integer.parseInt(flightData[9].trim());
         int firstClassFarePrice = Integer.parseInt(flightData[10].trim());
         int secondClassFarePrice = Integer.parseInt(flightData[11].trim());
-        FarePrice farePrice = new FarePrice( economicFarePrice, firstClassFarePrice, secondClassFarePrice);
+        FarePrice farePrice = new FarePrice( number,economicFarePrice, firstClassFarePrice, secondClassFarePrice);
         return farePrice;
 
     }

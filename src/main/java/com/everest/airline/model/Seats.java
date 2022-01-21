@@ -3,14 +3,14 @@ package com.everest.airline.model;
 import com.everest.airline.enums.SeatType;
 
 public class Seats {
-    private int number;
+    private Long number;
     private  int economicClass;
     private  int firstClass;
     private  int secondClass;
 public Seats(){
 
 }
-    public Seats(int number, int economicClass, int firstClass, int secondClass) {
+    public Seats(Long number, int economicClass, int firstClass, int secondClass) {
         this.number=number;
         this.economicClass = economicClass;
         this.firstClass = firstClass;
@@ -23,6 +23,10 @@ public Seats(){
         if (seatType.equals(SeatType.FirstClass.toString()))
             return firstClass;
         return secondClass;
+    }
+
+    public Long getNumber() {
+        return number;
     }
 
 

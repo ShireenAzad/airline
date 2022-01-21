@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class FarePrice {
-    private int number;
+    private Long number;
     private int economicClassPrice;
     private int firstClassPrice;
     private int secondClassPrice;
@@ -16,14 +16,16 @@ public class FarePrice {
 
     }
 
-    public FarePrice(int economicClassPrice, int firstClassPrice, int secondClassPrice) {
+    public FarePrice(Long number,int economicClassPrice, int firstClassPrice, int secondClassPrice) {
         this.number=number;
         this.economicClassPrice = economicClassPrice;
         this.firstClassPrice = firstClassPrice;
         this.secondClassPrice = secondClassPrice;
 
     }
-
+    public Long getNumber() {
+        return number;
+    }
 
     public void setEconomicClassPrice(int economicClassPrice) {
         this.economicClassPrice = economicClassPrice;
