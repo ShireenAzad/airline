@@ -7,7 +7,7 @@ import com.everest.airline.model.Seats;
 import java.io.IOException;
 
 public class BookTicket {
-    public Seats ticketBooking(long number, String seatType, int numberOfPassengers) throws IOException {
+    public Seats ticketBooking(Long number, String seatType, int numberOfPassengers) throws IOException {
         FlightsSearch flightsSearch=new FlightsSearch();
         Flight flight1=flightsSearch.getSpecificFlight(number);
         FlightUpdate flightUpdate=new FlightUpdate(number,  seatType, numberOfPassengers);

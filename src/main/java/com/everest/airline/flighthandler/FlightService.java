@@ -21,6 +21,7 @@ public class FlightService {
         LocalTime departureTime = LocalTime.parse(flightData[5].trim(), DateTimeFormatter.ofPattern("HH:mm"));
        Seats seats=flightSeats(data);
        FarePrice farePrice=seatsPrice(data);
+
         return new Flight(flightNumber, source, destination, departureDate, arrivalTime, departureTime,seats,farePrice);
     }
 
@@ -40,8 +41,8 @@ public class FlightService {
         int economicFarePrice = Integer.parseInt(flightData[9].trim());
         int firstClassFarePrice = Integer.parseInt(flightData[10].trim());
         int secondClassFarePrice = Integer.parseInt(flightData[11].trim());
-        FarePrice farePrice = new FarePrice( number,economicFarePrice, firstClassFarePrice, secondClassFarePrice);
-        return farePrice;
+       return new FarePrice( number,economicFarePrice, firstClassFarePrice, secondClassFarePrice);
+
 
     }
 

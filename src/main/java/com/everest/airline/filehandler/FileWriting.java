@@ -15,7 +15,7 @@ import java.nio.file.Files;
 
 @Component
 public class FileWriting {
-    public void updatedDataToFile(Seats updatedSeats,long number) throws IOException {
+    public void updatedDataToFile(Seats updatedSeats, Long number) throws IOException {
         FlightsSearch flightsSearch=new FlightsSearch();
         flightsSearch.getSpecificFlight(number);
         String directoryPath = "/Users/shireensyed/Desktop/airlines/src/main/java/com/everest/airline/database/";
