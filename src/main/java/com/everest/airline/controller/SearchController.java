@@ -77,10 +77,10 @@ public class SearchController {
     public String booking(Long number, String seatType, Integer numberOfPassengers, Model model) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("number", number);
-        map.put("numberOfPassengers",numberOfPassengers);
-        int seats=0;
+        map.put("numberOfPassengers", numberOfPassengers);
+        int seats = 0;
         if (seatType.equals("Economic"))
-             seats = jdbcTemplate.update("update SEATS set economicClass=economicClass -:numberOfPassengers where number=:number", map);
+            seats = jdbcTemplate.update("update SEATS set economicClass=economicClass -:numberOfPassengers where number=:number", map);
         if (seatType.equals("FirstClass"))
             seats = jdbcTemplate.update("update SEATS set firstClass=firstClass -:numberOfPassengers where number=:number", map);
         else
@@ -92,7 +92,7 @@ public class SearchController {
 
     @RequestMapping(value = "/data/{number}")
     public String details(@PathVariable Long number) {
-        return "data";
+        return "data.html";
 
     }
 }

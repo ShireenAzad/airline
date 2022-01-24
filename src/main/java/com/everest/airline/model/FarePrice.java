@@ -1,7 +1,7 @@
 package com.everest.airline.model;
 
+import com.everest.airline.SeatsService;
 import com.everest.airline.enums.SeatType;
-import com.everest.airline.flighthandler.SeatsService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
