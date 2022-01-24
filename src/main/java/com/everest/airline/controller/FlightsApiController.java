@@ -1,4 +1,4 @@
-package com.everest.airline.flighthandler;
+package com.everest.airline.controller;
 
 import com.everest.airline.model.FarePrice;
 import com.everest.airline.model.Flight;
@@ -9,8 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -23,8 +21,6 @@ import java.util.Map;
 @RestController
 
 public class FlightsApiController {
-    @Autowired
-    Flights flights;
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 

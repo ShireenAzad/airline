@@ -1,15 +1,11 @@
 package com.everest.airline.controller;
 
-import com.everest.airline.flighthandler.BookTicket;
-import com.everest.airline.flighthandler.FlightsApiController;
 import com.everest.airline.model.FarePrice;
 import com.everest.airline.model.Flight;
 import com.everest.airline.model.Seats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,16 +43,25 @@ public class SearchController {
     public String search(String from, String to, String departureDate, int numberOfPassengers, String seatType, Model model) throws IOException {
         List<Flight> flights;
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("seatType", seatType);
         map.put("from", from);
         map.put("to", to);
-        map.put("numberOfPassengers",numberOfPassengers);
-        if (seatType.equals("Economic"))
-            flights = jdbcTemplate.query("SELECT * from flights inner join seats on flights.number =seats.number inner join farePrice on seats.number =farePrice.number and flights.source=:from and flights.destination=:to and seats.economicClass>:numberOfPassengers", map, new FlightsApiController.FlightRowMapper());
-        if (seatType.equals("FirstClass"))
-            flights = jdbcTemplate.query("SELECT * from flights inner join seats on flights.number =seats.number inner join farePrice on seats.number =farePrice.number and flights.source=:from and flights.destination=:to and seats.firstClass>:numberOfPassengers", map, new FlightsApiController.FlightRowMapper());
-        else
-            flights = jdbcTemplate.query("SELECT * from flights inner join seats on flights.number =seats.number inner join farePrice on seats.number =farePrice.number and flights.source=:from and flights.destination=:to and seats.secondClass>:numberOfPassengers", map, new FlightsApiController.FlightRowMapper());
-
+        map.put("numberOfPassengers", numberOfPassengers);
+        flights = jdbcTemplate.query("select * from flights \n" +
+                "inner join seats on flights.number =seats.number\n" +
+                "inner join fareprice on seats.number =fareprice.number\n " +
+                "WHERE \n" +
+                "COALESCE(CASE :seatType\n" +
+                "when \"Economic\" THEN \n" +
+                "case when seats.economicClass >:numberOfPassengers then \"economic Seats\"\n" +
+                "end\n" +
+                "when \"FirstClass\" THEN \n" +
+                "case when seats.firstClass >:numberOfPassengers then \"First Class Seats\"\n" +
+                "end\n" +
+                "when \"SecondClass\" THEN \n" +
+                "case when seats.secondClass >:numberOfPassengers then \"Second Class Seats\"\n" +
+                "end\n" +
+                "END ) is not null and flights.source=:from and flights.destination=:to", map, new FlightsApiController.FlightRowMapper());
         if (flights.size() == 0)
             return "searchHelper";
         model.addAttribute("flights", flights);
@@ -70,8 +75,17 @@ public class SearchController {
     @ModelAttribute
     @RequestMapping(value = "/book")
     public String booking(Long number, String seatType, Integer numberOfPassengers, Model model) throws IOException {
-        BookTicket bookTicket = new BookTicket();
-        Seats seats = bookTicket.ticketBooking(number, seatType, numberOfPassengers);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("number", number);
+        map.put("numberOfPassengers",numberOfPassengers);
+        int seats=0;
+        if (seatType.equals("Economic"))
+             seats = jdbcTemplate.update("update SEATS set economicClass=economicClass -:numberOfPassengers where number=:number", map);
+        if (seatType.equals("FirstClass"))
+            seats = jdbcTemplate.update("update SEATS set firstClass=firstClass -:numberOfPassengers where number=:number", map);
+        else
+            seats = jdbcTemplate.update("update SEATS set secondClass=secondClass -:numberOfPassengers where number=:number", map);
+
         model.addAttribute("flight", seats);
         return "redirect:data/{number}";
     }
